@@ -1,0 +1,15 @@
+---
+const { title = 'Mora Mora | Manzanas que se antojan', description = 'Manzanas preparadas con chamoy, chocolate y toppings en Ciudad Hidalgo.' } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f2e8d5" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body><slot /></body>
+</html>

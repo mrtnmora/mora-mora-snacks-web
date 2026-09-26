@@ -1,0 +1,304 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { business } from '../data/business';
+import { flavorOptions, additionalToppingOptions } from '../data/products';
+const heroImage = '/images/apple-01.jpeg';
+const summaryImage = '/images/apple-10.jpeg';
+const socialImages = [];
+const mapEmbedUrl = `https://www.google.com/maps?q=${business.mapCoordinates}&z=19&hl=es&output=embed`;
+const mapLink = business.mapsUrl;
+const catalogItems = [
+  { image: '/images/apple-24.jpeg', name: 'Miguelito', description: 'Chamoy clásico con un toque acidito y picosito.' },
+  { image: '/images/apple-21.jpeg', name: 'Tajin', description: 'Picosito, cítrico y con el punch del Tajín.' },
+  { image: '/images/apple-18.jpeg', name: 'Sandia', description: 'Dulce, fresca y con un sabor frutal.' },
+  { image: '/images/apple-15.jpeg', name: 'Mango', description: 'Tropical, dulce y con un giro picosito.' },
+  { image: '/images/apple-14.jpeg', name: 'Fresa', description: 'Frutal, suave y muy antojable.' },
+  { image: '/images/apple-11.jpeg', name: 'Uva', description: 'Dulce y aromática, con un color intenso.' },
+  { image: '/images/apple-12.jpeg', name: 'Mora Azul', description: 'Frutal, brillante y de sabor profundo.' },
+  { image: '/images/apple-13.jpeg', name: 'Pepino', description: 'Fresco, ligero y con un toque acidito.' },
+  { image: '/images/apple-25.jpeg', name: 'Chocolate con chispas', description: 'Chocolate cremoso cubierto de chispas crujientes.' },
+];
+const whatsappLink = `https://wa.me/${business.whatsapp}`;
+---
+
+<Layout>
+  <main data-whatsapp={business.whatsapp}>
+    <header class="site-header">
+      <a class="logo" href="#inicio" aria-label="Mora Mora, inicio">MORA<span>MORA</span></a>
+      <nav aria-label="Navegacion principal">
+        <a href="#productos">Productos</a><a href="#arma">Arma la tuya</a><a href="#mayoreo">Mayoreo</a><a href="#nosotros">Nosotros</a>
+      </nav>
+      <a class="header-cta" href="#arma">Pedir ahora <span>↗</span></a>
+      <button class="menu-button" aria-label="Abrir menu" aria-expanded="false">Menu</button>
+    </header>
+
+    <section class="hero" id="inicio">
+      <div class="hero-copy"><p class="eyebrow">Manzanas preparadas · Ciudad Hidalgo</p><h1>MORA<br /><em>MORA</em></h1><p class="hero-line">Se te antojó.<br /><strong>Y lo sabes.</strong></p><a class="button button-dark" href="#arma">Arma la tuya <span>↗</span></a></div>
+      <div class="hero-art"><div class="burst">FRESH<br />&amp; FUN</div><img src={heroImage} alt="Manzana Mora Mora cubierta de chamoy y toppings" fetchpriority="high" /></div>
+      <div class="hero-note"><span>01 / 06</span><span>Hechas al momento</span></div>
+    </section>
+
+    <section class="ticker" aria-label="Mora Mora highlights"><span>MANZANAS QUE HACEN CRUNCH</span><b>✳</b><span>MANZANAS QUE HACEN CRUNCH</span><b>✳</b><span>MANZANAS QUE HACEN CRUNCH</span></section>
+
+    <section class="families section" id="productos">
+      <div class="section-intro"><p class="eyebrow">Dos formas de caer</p><h2>¿De qué<br /><em>se te antoja?</em></h2><p>La base es tu mood. El topping, tu firma.</p></div>
+      <div class="family-grid">
+        <a class="family family-red" href="#arma" data-base="chamoy"><span class="family-label">&nbsp;</span><img src="/images/apple-03.jpeg" alt="Manzana preparada con chamoy" /><strong>Picosita.<br />Acida.<br />Adictiva.</strong><span class="arrow">↗</span></a>
+        <a class="family family-green" href="#arma" data-base="chocolate"><span class="family-label">&nbsp;</span><img src="/images/apple-09.jpeg" alt="Manzana cubierta de chocolate y toppings" /><strong>Dulce.<br />Crunchy.<br />Tuya.</strong><span class="arrow">↗</span></a>
+      </div>
+    </section>
+    <section class="catalog section" id="catalogo"><div class="section-intro split"><div><p class="eyebrow">Fotos reales de Mora Mora</p><h2>TODO EL<br /><em>ANTOJO.</em></h2></div><p>Da clic o toca una foto para conocer el sabor.</p></div><div class="catalog-grid">{catalogItems.map((item, index) => <details class={index === 0 ? 'catalog-card catalog-card-first' : 'catalog-card'}><summary><img src={item.image} alt={`Manzana Mora Mora sabor ${item.name}`} loading="lazy" /><span>{item.name}</span></summary><p>{item.description}</p></details>)}</div></section>
+    <section class="builder section" id="arma">
+      <div class="builder-heading"><p class="eyebrow">Tu antojo, tus reglas</p><h2>ARMA<br /><em>LA TUYA.</em></h2><p>Elige una base, ponle tu mood y mándanos tu pedido.</p></div>
+      <div class="builder-layout">
+        <div class="builder-steps">
+          <div class="step active"><span>01</span><div><label>DEJANOS TU NOMBRE</label><input id="customer" type="text" placeholder="Tu nombre" autocomplete="name" /></div></div>
+          <div class="step"><span>02</span><div><label>ELIGE TU BASE</label><div class="choice-row"><button class="choice selected" data-choice="base" data-value="chamoy">Chamoy</button><button class="choice" data-choice="base" data-value="chocolate">Chocolate</button></div></div></div>
+          <div class="step"><span>03</span><div><label>ELIGE TU SABOR</label><div class="choice-row" id="flavors">{flavorOptions.chamoy.map((flavor, index) => <button class:list:selected={index === 0} class="choice flavor-choice" data-choice="flavor" data-value={flavor}>{flavor}</button>)}</div></div></div>
+          <div class="step"><span>04</span><div><label>TOPPINGS ADICIONALES</label><div class="choice-row" id="toppings">{additionalToppingOptions.chamoy.map((topping, index) => <button class:list:selected={index === 0} class="choice topping-choice" data-choice="additionalTopping" data-value={topping}>{topping}</button>)}</div></div></div>
+          <div class="step"><span>05</span><div><label>CANTIDAD</label><div class="quantity"><button type="button" id="minus" aria-label="Quitar una manzana">−</button><strong id="quantity">1</strong><button type="button" id="plus" aria-label="Agregar una manzana">+</button></div><button class="button button-dark add-item" id="add-item" type="button">Agregar al carrito <span>+</span></button></div></div>
+        </div>
+        <aside class="order-summary"><p class="eyebrow">Tu carrito</p><div class="summary-apple"><img src={summaryImage} alt="Manzanas Mora Mora preparadas" /></div><div id="summary-items" class="summary-items" aria-live="polite"></div><div class="summary-line"><span>Estimado</span><strong id="summary-total">Por confirmar</strong></div><button class="button button-red" id="order-button" disabled>Hacer pedido <span>↗</span></button><small>Las manzanas se preparan al momento. Confirma los detalles por WhatsApp.</small></aside>
+      </div>
+    </section>
+
+
+    <section class="manifesto" id="nosotros"><div class="manifesto-stamp">M<br />M</div><p class="eyebrow">Lo que nos mueve</p><h2>HECHAS PARA<br /><em>ANTOJARSE.</em></h2><p class="manifesto-copy">Somos de aquí, de lo picosito, lo dulce y lo que se disfruta sin tanta vuelta. Preparamos cada manzana al momento para que llegue crujiente, intensa y muy Mora Mora.</p></section>
+
+    <section class="wholesale section" id="mayoreo"><div><p class="eyebrow">Para tu evento</p><h2>MORA MORA<br /><em>PARA TODOS.</em></h2></div><div class="wholesale-action"><strong>40<span>+</span></strong><p>piezas para precio especial de mayoreo.</p><a class="button button-dark" href="#contacto" id="wholesale-button">Cotizar mayoreo <span>↗</span></a></div></section>
+
+    <section class="social section"><div class="section-intro split"><div><p class="eyebrow">Síguenos el antojo</p><h2>MORA MORA<br /><em>EN TU FEED.</em></h2></div><a class="social-link" href={business.instagram} target="_blank" rel="noreferrer">@manzanasmoramora.104 ↗</a></div><div class="social-grid">{socialImages.map((image, index) => <img src={image} alt={`Manzana Mora Mora, foto ${index + 1}`} loading="lazy" />)}</div></section>
+    
+    <section class="contact section" id="contacto"><div><p class="eyebrow">Pasa por una</p><h2>NOS VEMOS<br /><em>EN HIDALGO.</em></h2></div><div class="contact-info"><a class="address-link" href={mapLink} target="_blank" rel="noreferrer">{business.address}<br />{business.city} ↗</a><p>{business.hours}</p><a class="button button-red" href={whatsappLink} target="_blank" rel="noreferrer">Pedir por WhatsApp <span>↗</span></a></div><div class="contact-map"><iframe title="Mapa con pin de Mora Mora" src={mapEmbedUrl} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a class="map-link" href={mapLink} target="_blank" rel="noreferrer">Abrir ubicación con pin en Google Maps ↗</a></div></section>
+
+    <footer><a class="logo" href="#inicio">MORA<span>MORA</span></a><p>Manzanas preparadas con actitud.</p><div><a href="#productos">Productos</a><a href="#arma">Arma la tuya</a><a href="#contacto">Contacto</a></div><small>© 2026 Mora Mora</small></footer>
+  </main>
+</Layout>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{--ink:#1a1d18;--cream:#f2e8d5;--red:#d93632;--green:#a6c735;--acid:#d8f044;--line:rgba(26,29,24,.2);font-family:'Space Grotesk',sans-serif;color:var(--ink);background:var(--cream)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}.site-header{height:76px;padding:0 4vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:relative;z-index:5}.logo{font-weight:700;letter-spacing:-.08em;font-size:1.7rem;line-height:.7;display:flex;flex-direction:column}.logo span{margin-left:18px}.site-header nav{display:flex;gap:28px;font-family:'DM Mono',monospace;font-size:.67rem;text-transform:uppercase}.header-cta,.button{border:1px solid var(--ink);padding:13px 17px;text-transform:uppercase;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.03em;display:inline-flex;gap:22px;align-items:center;justify-content:space-between;transition:transform .2s,background .2s}.header-cta{background:var(--ink);color:var(--cream)}.button:hover,.header-cta:hover{transform:translate(-3px,-3px)}.button-dark{background:var(--ink);color:var(--cream)}.button-red{background:var(--red);color:#fff;border-color:var(--red)}.menu-button{display:none;background:none;border:0;text-transform:uppercase;font-family:'DM Mono';font-size:.65rem}.hero{min-height:calc(100vh - 76px);position:relative;display:grid;grid-template-columns:44% 56%;overflow:hidden;border-bottom:1px solid var(--line)}.hero-copy{padding:11vh 0 8vh 9vw;position:relative;z-index:2}.eyebrow{font-family:'DM Mono',monospace;text-transform:uppercase;font-size:.67rem;letter-spacing:.08em;margin:0 0 25px}.hero h1{font-size:clamp(5.8rem,15vw,13rem);line-height:.75;letter-spacing:-.1em;margin:0 0 48px}.hero h1 em,h2 em{font-style:normal;color:var(--red)}.hero-line{font-size:1.25rem;line-height:1.1;margin:0 0 32px;transform:rotate(-5deg);font-style:italic}.hero-line strong{font-size:1.9rem}.hero-art{position:relative;display:flex;align-items:center;justify-content:center;background:var(--acid);clip-path:polygon(9% 0,100% 0,100% 100%,0 100%,0 15%)}.hero-art img{width:min(64vw,680px);height:min(74vh,680px);object-fit:cover;border-radius:50%;transform:rotate(8deg);filter:saturate(1.1);animation:arrive .9s cubic-bezier(.2,.8,.2,1) both}.burst{position:absolute;right:9%;top:17%;z-index:1;background:var(--red);color:white;border-radius:50%;width:102px;height:102px;display:grid;place-items:center;text-align:center;font-size:.75rem;font-weight:700;transform:rotate(13deg);line-height:1.05}.hero-note{position:absolute;bottom:28px;left:9vw;right:4vw;display:flex;justify-content:space-between;font-family:'DM Mono';font-size:.62rem;text-transform:uppercase}.ticker{height:46px;background:var(--red);color:white;display:flex;align-items:center;justify-content:space-around;overflow:hidden;font:500 .65rem 'DM Mono';white-space:nowrap}.ticker b{font-size:1.2rem}.section{padding:125px 8vw}.section-intro h2,.builder-heading h2,.manifesto h2,.wholesale h2,.contact h2{font-size:clamp(3.5rem,8vw,8rem);line-height:.8;letter-spacing:-.09em;margin:0}.section-intro>p:last-child{font-size:1.05rem;max-width:220px;margin-left:auto;margin-top:-32px}.family-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:70px}.family{min-height:550px;padding:28px;position:relative;overflow:hidden;color:white}.family-red{background:var(--red)}.family-green{background:var(--green);color:var(--ink)}.family img{position:absolute;width:72%;height:72%;object-fit:cover;border-radius:50%;right:-7%;top:13%;transform:rotate(12deg);mix-blend-mode:multiply}.family-label{position:absolute;top:28px;left:28px;font:500 .72rem 'DM Mono'}.family-number{position:absolute;top:28px;right:28px;font:500 .68rem 'DM Mono'}.family strong{position:absolute;left:28px;bottom:28px;font-size:2.5rem;line-height:.82;letter-spacing:-.07em}.arrow{position:absolute;right:28px;bottom:28px;font-size:2rem}.builder{background:var(--ink);color:var(--cream)}.builder-heading{display:flex;justify-content:space-between;align-items:end}.builder-heading h2 em{color:var(--acid)}.builder-heading>p:last-child{max-width:210px;line-height:1.3}.builder-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:8vw;margin-top:75px}.step{display:grid;grid-template-columns:55px 1fr;gap:12px;padding:27px 0;border-top:1px solid rgba(242,232,213,.25)}.step>span{font:500 .68rem 'DM Mono';color:var(--acid)}.step label{display:block;font:500 .68rem 'DM Mono';margin-bottom:16px}.choice-row{display:flex;flex-wrap:wrap;gap:8px}.choice{background:transparent;color:var(--cream);border:1px solid rgba(242,232,213,.35);padding:11px 15px;font-size:.9rem;cursor:pointer}.choice:hover,.choice.selected{background:var(--acid);border-color:var(--acid);color:var(--ink)}.quantity{display:flex;align-items:center;gap:22px}.quantity button{color:var(--cream);background:none;border:1px solid rgba(242,232,213,.35);width:34px;height:34px;cursor:pointer}.quantity strong{font-size:1.25rem}input{background:transparent;border:0;border-bottom:1px solid rgba(242,232,213,.5);color:var(--cream);padding:10px 0;width:100%;outline:0}input:focus{border-color:var(--acid)}.order-summary{background:var(--cream);color:var(--ink);padding:27px;position:relative}.summary-apple{height:210px;overflow:hidden;background:var(--acid);margin:20px -27px}.summary-apple img{height:100%;width:100%;object-fit:cover;transform:rotate(-8deg)}.order-summary h3{font-size:1.5rem;letter-spacing:-.05em;margin:20px 0 5px}.order-summary p:not(.eyebrow){margin:0 0 28px;font: .68rem 'DM Mono';text-transform:uppercase}.summary-line{border-top:1px solid var(--line);padding:15px 0;display:flex;justify-content:space-between;font: .7rem 'DM Mono'}.order-summary .button{width:100%;margin-top:13px}.order-summary small{display:block;font-size:.7rem;line-height:1.35;margin-top:16px;color:#60635c}.split{display:flex;justify-content:space-between;align-items:end}.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:70px}.product-image{height:380px;background:var(--green);position:relative;overflow:hidden}.product:nth-child(2) .product-image{background:var(--red)}.product:nth-child(3) .product-image{background:var(--acid)}.product-image img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;transition:transform .4s}.product:hover img{transform:scale(1.05) rotate(3deg)}.product-image span{position:absolute;top:18px;left:18px;background:var(--ink);color:var(--cream);font: .6rem 'DM Mono';padding:7px}.product-meta{padding-top:14px}.product-meta h3{margin:0;font-size:1.3rem;letter-spacing:-.05em}.product-meta p{font-size:.8rem;line-height:1.3;min-height:35px}.product-meta strong{font: .65rem 'DM Mono';text-transform:uppercase}.manifesto{background:#8d5e51;color:white;min-height:620px;padding:115px 8vw 90px;position:relative;overflow:hidden}.manifesto>*{position:relative;z-index:1}.manifesto .eyebrow{color:rgba(255,255,255,.88);margin-bottom:28px}.manifesto h2{font-size:clamp(4.5rem,9vw,11rem);line-height:.72;letter-spacing:-.1em;margin:0;max-width:540px}.manifesto h2 em{color:#f3d8d3}.manifesto-copy{max-width:430px;line-height:1.18;margin:48px 0 0 0;font-size:clamp(1.1rem,2vw,2.1rem);font-weight:500;color:rgba(255,255,255,.92)}.manifesto-stamp{position:absolute;right:10%;top:15%;border:2px solid rgba(255,255,255,.95);border-radius:50%;height:145px;width:145px;display:grid;place-items:center;text-align:center;font-size:3.9rem;line-height:.7;transform:rotate(11deg);font-weight:700;letter-spacing:-.12em;color:rgba(255,255,255,.95);background:rgba(255,255,255,.02)}.manifesto-stamp br{display:none}.wholesale{background:var(--green);display:grid;grid-template-columns:1fr 1fr;align-items:end}.wholesale-action{justify-self:end;max-width:270px}.wholesale-action>strong{font-size:8rem;line-height:.7;letter-spacing:-.1em}.wholesale-action>strong span{color:var(--red)}.wholesale-action p{line-height:1.3;margin-bottom:30px}.social-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:70px}.social-grid img{width:100%;aspect-ratio:1;object-fit:cover;filter:saturate(1.1)}.social-grid img:nth-child(2),.social-grid img:nth-child(5){transform:translateY(20px)}.contact{display:grid;grid-template-columns:1fr 1fr;background:var(--acid);align-items:end}.contact-info{justify-self:end;width:260px;line-height:1.25}.contact-info .muted{font-size:.75rem;opacity:.7;margin:25px 0}.contact-info .button{width:100%}footer{background:var(--ink);color:var(--cream);padding:45px 8vw;display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;align-items:start}footer p,footer small{font: .65rem 'DM Mono';text-transform:uppercase;opacity:.7}footer div{display:flex;flex-direction:column;gap:10px;font:.65rem 'DM Mono';text-transform:uppercase}footer small{text-align:right}
+@keyframes arrive{from{opacity:0;transform:translateY(30px) rotate(16deg) scale(.9)}to{opacity:1;transform:rotate(8deg) scale(1)}}@media(max-width:760px){.site-header{height:64px;padding:0 5vw}.site-header nav,.header-cta{display:none}.menu-button{display:block}.hero{min-height:720px;display:block}.hero-copy{padding:58px 7vw 0}.hero h1{font-size:clamp(5.2rem,25vw,8rem);margin-bottom:35px}.hero-art{position:absolute;right:-8%;bottom:0;width:112%;height:54%;clip-path:polygon(8% 0,100% 0,100% 100%,0 100%,0 12%)}.hero-art img{width:78vw;height:78vw}.burst{right:13%;top:7%;width:80px;height:80px;font-size:.6rem}.hero-note{left:7vw;bottom:16px;font-size:.55rem}.section{padding:84px 7vw}.section-intro h2,.builder-heading h2,.manifesto h2,.wholesale h2,.contact h2{font-size:clamp(3.4rem,17vw,6rem)}.section-intro>p:last-child{margin:30px 0 0}.family-grid,.product-grid,.builder-layout,.wholesale,.contact{grid-template-columns:1fr}.family{min-height:425px}.family strong{font-size:2rem}.builder-heading{display:block}.builder-heading>p:last-child{margin-top:28px}.builder-layout{margin-top:50px;gap:45px}.order-summary{margin:0 -2vw}.product-grid{gap:44px;margin-top:48px}.product-image{height:330px}.manifesto{min-height:590px}.manifesto-copy{margin:48px 0 0 12%;}.manifesto-stamp{top:11%;right:8%;height:90px;width:90px;font-size:2rem}.wholesale-action,.contact-info{justify-self:start;margin-top:55px}.wholesale-action>strong{font-size:7rem}.social-grid{grid-template-columns:repeat(3,1fr);gap:7px;margin-top:48px}.social-grid img:nth-child(2),.social-grid img:nth-child(5){transform:none}.split{display:block}footer{grid-template-columns:1fr 1fr;padding:40px 7vw}footer small{text-align:left;grid-column:1/-1}.ticker{gap:25px;justify-content:flex-start}.ticker span{font-size:.6rem}.step{grid-template-columns:38px 1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+
+<style>
+  :root { --ink: #211d1a; --cream: #eee6d8; --red: #8a5148; --green: #78806b; --acid: #d7c7a8; --line: rgba(33, 29, 26, .2); }
+  .hero-art img { filter: saturate(.82) contrast(1.04); }
+  .family img, .product-image img { mix-blend-mode: normal; }
+  .family:hover img { transform: rotate(15deg) scale(1.04); }
+  .product:hover img { transform: scale(1.05) rotate(3deg); }
+  .summary-apple img { transform: none; object-position: center; }
+  .social-grid img { filter: saturate(.82); }
+  .social-link { font: .68rem 'DM Mono', monospace; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 8px; }
+  :global(.add-item) { display: flex; width: fit-content; margin: 18px 0 0 auto; background: var(--acid); color: var(--ink); border: 1px solid var(--acid); padding: 13px 17px; text-transform: uppercase; font: .68rem 'DM Mono', monospace; letter-spacing: .03em; align-items: center; justify-content: space-between; gap: 22px; transition: background .2s, border-color .2s; }
+  button.add-item.button-dark { background: var(--acid); color: var(--ink); border-color: var(--acid); }
+  :global(.add-item:hover) { background: var(--cream); border-color: var(--cream); transform: none; }
+  button.add-item:hover { transform: none; }
+  .summary-items { display: grid; gap: 12px; margin: 20px 0; }
+  .summary-item { border-top: 1px solid var(--line); padding-top: 12px; }
+  .summary-item strong, .summary-item span { display: block; }
+  .summary-item strong { font-size: 1rem; }
+  .summary-item span { font: .65rem 'DM Mono', monospace; text-transform: uppercase; margin-top: 5px; }
+  :global(.summary-items) { display: grid; gap: 12px; margin: 20px 0; }
+  :global(.summary-item) { border-top: 1px solid var(--line); padding-top: 12px; }
+  :global(.summary-item strong), :global(.summary-item span) { display: block; }
+  :global(.summary-item strong) { font-size: 1rem; }
+  :global(.summary-item span) { font: .65rem 'DM Mono', monospace; text-transform: uppercase; margin-top: 5px; }
+  :global(.summary-empty) { margin: 20px 0; color: #60635c; font: .7rem 'DM Mono', monospace; line-height: 1.5; text-transform: uppercase; }
+  :global(#order-button:disabled) { cursor: not-allowed; opacity: .45; transform: none; }
+  :global(.choice) { background: transparent; color: var(--cream); border: 1px solid rgba(242, 232, 213, .35); padding: 11px 15px; font-size: .9rem; cursor: pointer; }
+  :global(.choice:hover), :global(.choice.selected) { background: var(--acid); border-color: var(--acid); color: var(--ink); }
+  :global(.topping-choice) { display: inline-flex; align-items: center; gap: 10px; position: relative; }
+  :global(.topping-choice input) { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+  :global(.topping-choice span) { display: inline-block; }
+  :global(.button), :global(.header-cta) { transition: background .2s, border-color .2s; }
+  :global(.button:hover), :global(.header-cta:hover) { transform: none; }
+  a.button, button.button, a.header-cta { transition: background .2s, border-color .2s; }
+  a.button:hover, button.button:hover, a.header-cta:hover { transform: none; }
+  button.add-item { display: flex; width: fit-content; margin: 18px 0 0 auto; cursor: pointer; transition: background .2s, border-color .2s; }
+  .address-link { display: inline-block; border-bottom: 1px solid var(--ink); padding-bottom: 8px; line-height: 1.45; }
+  .contact-map { grid-column: 1 / -1; margin-top: 54px; border: 1px solid rgba(33, 29, 26, .2); background: var(--cream); }
+  .contact-map iframe { display: block; width: 100%; height: 300px; border: 0; filter: grayscale(.25) sepia(.12); }
+  .map-link { display: block; padding: 13px 15px; font: .68rem 'DM Mono', monospace; text-transform: uppercase; border-top: 1px solid var(--line); }
+  .catalog-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 70px; }
+  .catalog-card { min-width: 0; background: var(--cream); border: 1px solid var(--line); }
+  .catalog-card summary { display: block; cursor: pointer; list-style: none; }
+  .catalog-card summary::-webkit-details-marker { display: none; }
+  .catalog-card summary img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; filter: saturate(.9); transition: filter .2s; }
+  .catalog-card-first summary img { object-position: center top; }
+  .catalog-card summary:hover img, .catalog-card[open] summary img { filter: saturate(1.1); }
+  .catalog-card summary span { display: block; padding: 12px 13px 13px; font: .68rem 'DM Mono', monospace; text-transform: uppercase; }
+  .catalog-card p { margin: 0; padding: 0 13px 15px; font-size: .82rem; line-height: 1.35; }
+  @media (max-width: 760px) {
+    .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; margin-top: 48px; }
+    .catalog-card summary span { padding: 9px 8px 10px; font-size: .58rem; }
+    .catalog-card p { padding: 0 8px 11px; font-size: .72rem; }
+    .contact-map { grid-column: auto; margin-top: 42px; }
+    .contact-map iframe { height: 250px; }
+  }
+  @media (min-width: 1000px) {
+    .order-summary { width: 100%; max-width: 420px; justify-self: end; }
+    .summary-apple { height: clamp(220px, 20vw, 280px); }
+  }
+</style>
+
+<script>
+  const flavorData = { chamoy: ['Miguelito', 'Tajin', 'Sandia', 'Mango', 'Fresa', 'Uva', 'Mora Azul', 'Pepino'], chocolate: ['Blanco', 'Obscuro'] };
+  const additionalToppingData = { chamoy: ['Gomitas', 'Skwinkles'], chocolate: ['Chispas de chocolate', 'Coco'] };
+  const BASE_PRICES = { chamoy: 35, chocolate: 45 };
+  const state = { base: 'chamoy', flavor: 'Miguelito', toppings: [], quantity: 1, items: [] };
+  const toppingWrap = document.querySelector('#toppings');
+  const flavorWrap = document.querySelector('#flavors');
+  const quantity = document.querySelector('#quantity');
+  const customer = document.querySelector('#customer');
+  const summaryItems = document.querySelector('#summary-items');
+  const summaryTotal = document.querySelector('#summary-total');
+
+  function syncBaseButtons() {
+    document.querySelectorAll('[data-choice="base"]').forEach((button) => {
+      button.classList.toggle('selected', button.dataset.value === state.base);
+    });
+  }
+
+  function resetBuilder() {
+    state.base = 'chamoy';
+    state.flavor = flavorData.chamoy[0];
+    state.toppings = [];
+    state.quantity = 1;
+    renderOptions();
+    syncBaseButtons();
+    updateSummary();
+  }
+
+  function getItemPrice(base, toppings) {
+    const basePrice = BASE_PRICES[base] ?? 0;
+    if (base === 'chamoy') {
+      return basePrice + (toppings.length * 10);
+    }
+    return basePrice;
+  }
+
+  function getOrderTotal() {
+    return state.items.reduce((total, item) => total + (getItemPrice(item.base, item.toppings) * item.quantity), 0);
+  }
+
+  function formatMoney(value) {
+    return `$${value.toLocaleString('es-MX')} MXN`;
+  }
+
+  function describeItem(item) {
+    const toppings = item.toppings.length ? ` + ${item.toppings.join(', ')}` : '';
+    return { name: `${item.quantity} × Manzana de ${item.base}`, detail: `${item.flavor}${toppings}` };
+  }
+
+  function updateSummary() {
+    const total = getOrderTotal();
+    summaryItems.innerHTML = state.items.length ? state.items.map((item) => {
+      const description = describeItem(item);
+      const itemTotal = getItemPrice(item.base, item.toppings) * item.quantity;
+      return `<div class="summary-item"><strong>${description.name}</strong><span>${description.detail}</span><span>${formatMoney(itemTotal)}</span></div>`;
+    }).join('') : '<p class="summary-empty">Tu carrito está vacío.<br />Agrega una combinación para continuar.</p>';
+    summaryTotal.textContent = state.items.length ? formatMoney(total) : 'Por confirmar';
+    document.querySelector('#order-button').disabled = state.items.length === 0;
+    quantity.textContent = state.quantity;
+  }
+
+  function renderOptions() {
+    const base = state.base;
+    const flavorButtons = flavorData[base].map((item, index) => `<button class="choice flavor-choice ${index === 0 && state.flavor === item ? 'selected' : ''}" data-choice="flavor" data-value="${item}">${item}</button>`).join('');
+    const toppingButtons = additionalToppingData[base].map((item) => {
+      const checked = state.toppings.includes(item);
+      return `<label class="choice topping-choice ${checked ? 'selected' : ''}"><input type="checkbox" data-choice="additionalTopping" value="${item}" ${checked ? 'checked' : ''} /> <span>${item}</span></label>`;
+    }).join('');
+    flavorWrap.innerHTML = flavorButtons;
+    toppingWrap.innerHTML = toppingButtons;
+    state.flavor = state.flavor && flavorData[base].includes(state.flavor) ? state.flavor : flavorData[base][0];
+    state.toppings = base === 'chocolate' ? state.toppings.filter((item) => additionalToppingData.chocolate.includes(item)).slice(0, 1) : state.toppings.filter((item) => additionalToppingData[base].includes(item));
+    syncBaseButtons();
+  }
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-choice]');
+    if (!button) return;
+
+    const choice = button.dataset.choice;
+
+    if (choice === 'base') {
+      state.base = button.dataset.value;
+      state.flavor = flavorData[state.base][0];
+      state.toppings = [];
+      renderOptions();
+      syncBaseButtons();
+      updateSummary();
+      return;
+    }
+
+    if (choice === 'flavor') {
+      state.flavor = button.dataset.value;
+      button.parentElement.querySelectorAll('[data-choice]').forEach((item) => item.classList.remove('selected'));
+      button.classList.add('selected');
+      updateSummary();
+      return;
+    }
+  });
+
+  document.addEventListener('change', (event) => {
+    const input = event.target.closest('input[data-choice="additionalTopping"]');
+    if (!input) return;
+
+    const value = input.value;
+    if (state.base === 'chocolate') {
+      const allInputs = toppingWrap.querySelectorAll('input[data-choice="additionalTopping"]');
+      allInputs.forEach((checkbox) => {
+        const isSelected = checkbox === input && input.checked;
+        checkbox.checked = isSelected;
+        const label = checkbox.closest('.topping-choice');
+        label.classList.toggle('selected', isSelected);
+      });
+      state.toppings = input.checked ? [value] : [];
+    } else {
+      state.toppings = input.checked
+        ? [...new Set([...state.toppings, value])]
+        : state.toppings.filter((item) => item !== value);
+
+      const allInputs = toppingWrap.querySelectorAll('input[data-choice="additionalTopping"]');
+      allInputs.forEach((checkbox) => {
+        const label = checkbox.closest('.topping-choice');
+        label.classList.toggle('selected', checkbox.checked);
+      });
+    }
+    updateSummary();
+  });
+
+  document.querySelector('#plus').addEventListener('click', () => { state.quantity += 1; updateSummary(); });
+  document.querySelector('#minus').addEventListener('click', () => { state.quantity = Math.max(1, state.quantity - 1); updateSummary(); });
+  document.querySelector('#add-item').addEventListener('click', () => {
+    state.items.push({
+      base: state.base,
+      flavor: state.flavor,
+      toppings: [...state.toppings],
+      quantity: state.quantity,
+    });
+    resetBuilder();
+  });
+  document.querySelector('#order-button').addEventListener('click', () => {
+    const name = customer.value.trim();
+    const total = getOrderTotal();
+    const orderLines = state.items.map((item) => {
+      const toppings = item.toppings.length ? `, toppings: ${item.toppings.join(', ')}` : '';
+      const itemTotal = getItemPrice(item.base, item.toppings) * item.quantity;
+      return `${item.quantity} x ${item.base}, sabor: ${item.flavor}${toppings} (${formatMoney(itemTotal).replace(' MXN', '')})`;
+    }).join('%0A');
+    const nameLine = name ? `%0ANombre: ${name}` : '';
+    const message = `Hola Mora Mora!%0A%0AQuiero pedir:%0A${orderLines}%0A%0ATotal estimado: ${formatMoney(total).replace(' MXN', '')}${nameLine}`;
+    const whatsappNumber = document.querySelector('main').dataset.whatsapp;
+    if (whatsappNumber) window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener');
+    else alert('WhatsApp esta listo para conectarse. Agrega el numero en src/data/business.ts.');
+  });
+  document.querySelector('#wholesale-button').addEventListener('click', (event) => { event.preventDefault(); const whatsappNumber = document.querySelector('main').dataset.whatsapp; window.open(`https://wa.me/${whatsappNumber}?text=Hola%20Mora%20Mora,%20quiero%20cotizar%20un%20pedido%20de%20mayoreo.`, '_blank', 'noopener'); });
+  document.querySelector('.menu-button').addEventListener('click', (event) => { const open = event.currentTarget.getAttribute('aria-expanded') === 'true'; event.currentTarget.setAttribute('aria-expanded', String(!open)); document.querySelector('nav').classList.toggle('mobile-open'); });
+  renderOptions();
+  syncBaseButtons();
+  updateSummary();
+</script>
