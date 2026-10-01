@@ -1,5 +1,6 @@
 ---
 const { title = 'Mora Mora | Manzanas que se antojan', description = 'Manzanas preparadas con chamoy, chocolate y toppings en Ciudad Hidalgo.' } = Astro.props;
+const canonicalUrl = 'https://mora-mora.mx/';
 ---
 <!doctype html>
 <html lang="es">
@@ -8,6 +9,29 @@ const { title = 'Mora Mora | Manzanas que se antojan', description = 'Manzanas p
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f2e8d5" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mora Mora" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content="https://mora-mora.mx/images/apple-01.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: 'Mora Mora',
+      description,
+      url: canonicalUrl,
+      image: 'https://mora-mora.mx/images/apple-01.jpeg',
+      sameAs: ['https://www.instagram.com/manzanasmoramora.104/'],
+      servesCuisine: 'Snacks',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Ciudad Hidalgo',
+        addressCountry: 'MX',
+      },
+    })} />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
   </head>
