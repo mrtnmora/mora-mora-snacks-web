@@ -71,7 +71,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
     
     <section class="contact section" id="contacto"><div><p class="eyebrow">Pasa por una</p><h2>NOS VEMOS<br /><em>EN HIDALGO.</em></h2></div><div class="contact-info"><a class="address-link" href={mapLink} target="_blank" rel="noreferrer">{business.address}<br />{business.city} ↗</a><p>{business.hours}</p><a class="button button-red" href={whatsappLink} target="_blank" rel="noreferrer">Pedir por WhatsApp <span>↗</span></a></div><div class="contact-map"><iframe title="Mapa con pin de Mora Mora" src={mapEmbedUrl} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a class="map-link" href={mapLink} target="_blank" rel="noreferrer">Abrir ubicación con pin en Google Maps ↗</a></div></section>
 
-    <footer><a class="logo" href="#inicio">MORA<span>MORA</span></a><p>Manzanas preparadas con actitud.</p><div><a href="#productos">Productos</a><a href="#arma">Arma la tuya</a><a href="#contacto">Contacto</a></div><small>© 2026 Mora Mora</small></footer>
+    <footer><a class="logo" href="#inicio">MORA<span>MORA</span></a><p>Manzanas preparadas con actitud.<span class="privacy-note">Medimos visitas y acciones de forma agregada; no enviamos nombre ni teléfono a analítica.</span></p><div><a href="#productos">Productos</a><a href="#arma">Arma la tuya</a><a href="#contacto">Contacto</a></div><small>© 2026 Mora Mora</small></footer>
   </main>
 </Layout>
 
@@ -96,6 +96,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
   .social-icon { display: inline-grid; place-items: center; width: 19px; height: 19px; }
   .social-icon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; }
   .social-icon circle:last-child { fill: currentColor; stroke: none; }
+  footer .privacy-note { display: block; max-width: 260px; margin-top: 12px; font-size: .58rem; line-height: 1.4; opacity: .65; }
   @media (max-width: 760px) {
     .site-header nav.mobile-open { display: flex; position: absolute; top: 64px; left: 0; right: 0; z-index: 10; flex-direction: column; gap: 0; padding: 8px 7vw 14px; background: var(--cream); border-bottom: 1px solid var(--line); }
     .site-header nav.mobile-open a { padding: 14px 0; border-bottom: 1px solid var(--line); }
@@ -154,6 +155,8 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
 </style>
 
 <script>
+  import { trackAnonymousEvent } from '../lib/analytics.js';
+
   const flavorData = { chamoy: ['Miguelito', 'Tajin', 'Sandia', 'Mango', 'Fresa', 'Uva', 'Mora Azul', 'Pepino'], chocolate: ['Blanco', 'Obscuro'] };
   const additionalToppingData = { chamoy: ['Gomitas', 'Skwinkles'], chocolate: ['Chispas de chocolate', 'Coco'] };
   const BASE_PRICES = { chamoy: 35, chocolate: 45 };
@@ -236,6 +239,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
 
     if (choice === 'base') {
       state.base = button.dataset.value;
+      trackAnonymousEvent('base_selected', { base: state.base });
       state.flavor = flavorData[state.base][0];
       state.toppings = [];
       renderOptions();
@@ -290,11 +294,14 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
       toppings: [...state.toppings],
       quantity: state.quantity,
     });
+    trackAnonymousEvent('add_to_cart', { base: state.base, quantity: state.quantity });
     resetBuilder();
   });
   document.querySelector('#order-button').addEventListener('click', () => {
     const name = customer.value.trim();
     const total = getOrderTotal();
+    const itemCount = state.items.reduce((count, item) => count + item.quantity, 0);
+    trackAnonymousEvent('whatsapp_order_click', { item_count: itemCount, total_amount: total });
     const orderLines = state.items.map((item) => {
       const toppings = item.toppings.length ? `, toppings: ${item.toppings.join(', ')}` : '';
       const itemTotal = getItemPrice(item.base, item.toppings) * item.quantity;
@@ -306,7 +313,9 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
     if (whatsappNumber) window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener');
     else alert('WhatsApp esta listo para conectarse. Agrega el numero en src/data/business.ts.');
   });
-  document.querySelector('#wholesale-button').addEventListener('click', (event) => { event.preventDefault(); const whatsappNumber = document.querySelector('main').dataset.whatsapp; window.open(`https://wa.me/${whatsappNumber}?text=Hola%20Mora%20Mora,%20quiero%20cotizar%20un%20pedido%20de%20mayoreo.`, '_blank', 'noopener'); });
+  document.querySelector('#wholesale-button').addEventListener('click', (event) => { event.preventDefault(); trackAnonymousEvent('wholesale_quote_click'); const whatsappNumber = document.querySelector('main').dataset.whatsapp; window.open(`https://wa.me/${whatsappNumber}?text=Hola%20Mora%20Mora,%20quiero%20cotizar%20un%20pedido%20de%20mayoreo.`, '_blank', 'noopener'); });
+  document.querySelector('.social-link').addEventListener('click', () => trackAnonymousEvent('instagram_profile_click'));
+  document.querySelector('.contact-info .button-red').addEventListener('click', () => trackAnonymousEvent('whatsapp_contact_click'));
   document.querySelector('.menu-button').addEventListener('click', (event) => { const button = event.currentTarget; const open = button.getAttribute('aria-expanded') === 'true'; const nextOpen = !open; button.setAttribute('aria-expanded', String(nextOpen)); button.setAttribute('aria-label', nextOpen ? 'Cerrar menu' : 'Abrir menu'); document.querySelector('.site-header nav').classList.toggle('mobile-open', nextOpen); });
   renderOptions();
   syncBaseButtons();
