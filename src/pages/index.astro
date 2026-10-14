@@ -2,21 +2,21 @@
 import Layout from '../layouts/Layout.astro';
 import { business } from '../data/business';
 import { flavorOptions, additionalToppingOptions } from '../data/products';
-const heroImage = '/images/apple-01.jpeg';
+const heroImage = '/images/apple-01.webp';
 const summaryImage = '/images/apple-10.jpeg';
 const socialImages = [];
 const mapEmbedUrl = `https://www.google.com/maps?q=${business.mapCoordinates}&z=19&hl=es&output=embed`;
 const mapLink = business.mapsUrl;
 const catalogItems = [
-  { image: '/images/apple-24.jpeg', name: 'Miguelito', description: 'Chamoy clásico con un toque acidito y picosito.' },
-  { image: '/images/apple-21.jpeg', name: 'Tajin', description: 'Picosito, cítrico y con el punch del Tajín.' },
-  { image: '/images/apple-18.jpeg', name: 'Sandia', description: 'Dulce, fresca y con un sabor frutal.' },
-  { image: '/images/apple-15.jpeg', name: 'Mango', description: 'Tropical, dulce y con un giro picosito.' },
+  { image: '/images/apple-24.webp', name: 'Miguelito', description: 'Chamoy clásico con un toque acidito y picosito.' },
+  { image: '/images/apple-21.webp', name: 'Tajin', description: 'Picosito, cítrico y con el punch del Tajín.' },
+  { image: '/images/apple-18.webp', name: 'Sandia', description: 'Dulce, fresca y con un sabor frutal.' },
+  { image: '/images/apple-15.webp', name: 'Mango', description: 'Tropical, dulce y con un giro picosito.' },
   { image: '/images/apple-14.jpeg', name: 'Fresa', description: 'Frutal, suave y muy antojable.' },
-  { image: '/images/apple-11.jpeg', name: 'Uva', description: 'Dulce y aromática, con un color intenso.' },
-  { image: '/images/apple-12.jpeg', name: 'Mora Azul', description: 'Frutal, brillante y de sabor profundo.' },
-  { image: '/images/apple-13.jpeg', name: 'Pepino', description: 'Fresco, ligero y con un toque acidito.' },
-  { image: '/images/apple-25.jpeg', name: 'Chocolate con chispas', description: 'Chocolate cremoso cubierto de chispas crujientes.' },
+  { image: '/images/apple-11.webp', name: 'Uva', description: 'Dulce y aromática, con un color intenso.' },
+  { image: '/images/apple-12.webp', name: 'Mora Azul', description: 'Frutal, brillante y de sabor profundo.' },
+  { image: '/images/apple-13.webp', name: 'Pepino', description: 'Fresco, ligero y con un toque acidito.' },
+  { image: '/images/apple-25.webp', name: 'Chocolate con chispas', description: 'Chocolate cremoso cubierto de chispas crujientes.' },
 ];
 const whatsappLink = `https://wa.me/${business.whatsapp}`;
 ---
@@ -43,8 +43,8 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
     <section class="families section" id="productos">
       <div class="section-intro"><p class="eyebrow">Dos formas de caer</p><h2>¿De qué<br /><em>se te antoja?</em></h2><p>La base es tu mood. El topping, tu firma.</p></div>
       <div class="family-grid">
-        <a class="family family-red" href="#arma" data-base="chamoy"><span class="family-label">&nbsp;</span><img src="/images/apple-03.jpeg" alt="Manzana preparada con chamoy" /><strong>Picosita.<br />Acida.<br />Adictiva.</strong><span class="arrow">↗</span></a>
-        <a class="family family-green" href="#arma" data-base="chocolate"><span class="family-label">&nbsp;</span><img src="/images/apple-09.jpeg" alt="Manzana cubierta de chocolate y toppings" /><strong>Dulce.<br />Crunchy.<br />Tuya.</strong><span class="arrow">↗</span></a>
+        <a class="family family-red" href="#arma" data-base="chamoy"><span class="family-label">&nbsp;</span><img src="/images/apple-03.webp" alt="Manzana preparada con chamoy" loading="lazy" decoding="async" /><strong>Picosita.<br />Acida.<br />Adictiva.</strong><span class="arrow">↗</span></a>
+        <a class="family family-green" href="#arma" data-base="chocolate"><span class="family-label">&nbsp;</span><img src="/images/apple-09.webp" alt="Manzana cubierta de chocolate y toppings" loading="lazy" decoding="async" /><strong>Dulce.<br />Crunchy.<br />Tuya.</strong><span class="arrow">↗</span></a>
       </div>
     </section>
     <section class="catalog section" id="catalogo"><div class="section-intro split"><div><p class="eyebrow">Fotos reales de Mora Mora</p><h2>TODO EL<br /><em>ANTOJO.</em></h2></div><p>Da clic o toca una foto para conocer el sabor.</p></div><div class="catalog-grid">{catalogItems.map((item, index) => <details class={index === 0 ? 'catalog-card catalog-card-first' : 'catalog-card'}><summary><img src={item.image} alt={`Manzana Mora Mora sabor ${item.name}`} loading="lazy" /><span>{item.name}</span></summary><p>{item.description}</p></details>)}</div></section>
@@ -52,13 +52,13 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
       <div class="builder-heading"><p class="eyebrow">Tu antojo, tus reglas</p><h2>ARMA<br /><em>LA TUYA.</em></h2><p>Elige una base, ponle tu mood y mándanos tu pedido.</p></div>
       <div class="builder-layout">
         <div class="builder-steps">
-          <div class="step active"><span>01</span><div><label>DEJANOS TU NOMBRE</label><input id="customer" type="text" placeholder="Tu nombre" autocomplete="name" /></div></div>
+          <div class="step active"><span>01</span><div><label for="customer">DEJANOS TU NOMBRE (OPCIONAL)</label><input id="customer" type="text" placeholder="Tu nombre" autocomplete="name" maxlength="80" /></div></div>
           <div class="step"><span>02</span><div><label>ELIGE TU BASE</label><div class="choice-row"><button class="choice selected" data-choice="base" data-value="chamoy">Chamoy</button><button class="choice" data-choice="base" data-value="chocolate">Chocolate</button></div></div></div>
           <div class="step"><span>03</span><div><label>ELIGE TU SABOR</label><div class="choice-row" id="flavors">{flavorOptions.chamoy.map((flavor, index) => <button class:list:selected={index === 0} class="choice flavor-choice" data-choice="flavor" data-value={flavor}>{flavor}</button>)}</div></div></div>
           <div class="step"><span>04</span><div><label>TOPPINGS ADICIONALES</label><div class="choice-row" id="toppings">{additionalToppingOptions.chamoy.map((topping, index) => <button class:list:selected={index === 0} class="choice topping-choice" data-choice="additionalTopping" data-value={topping}>{topping}</button>)}</div></div></div>
           <div class="step"><span>05</span><div><label>CANTIDAD</label><div class="quantity"><button type="button" id="minus" aria-label="Quitar una manzana">−</button><strong id="quantity">1</strong><button type="button" id="plus" aria-label="Agregar una manzana">+</button></div><button class="button button-dark add-item" id="add-item" type="button">Agregar al carrito <span>+</span></button></div></div>
         </div>
-        <aside class="order-summary"><p class="eyebrow">Tu carrito</p><div class="summary-apple"><img src={summaryImage} alt="Manzanas Mora Mora preparadas" /></div><div id="summary-items" class="summary-items" aria-live="polite"></div><div class="summary-line"><span>Estimado</span><strong id="summary-total">Por confirmar</strong></div><button class="button button-red" id="order-button" disabled>Hacer pedido <span>↗</span></button><small>Las manzanas se preparan al momento. Confirma los detalles por WhatsApp.</small></aside>
+        <aside class="order-summary"><p class="eyebrow">Tu carrito</p><div class="summary-apple"><img src={summaryImage} alt="Manzanas Mora Mora preparadas" loading="lazy" decoding="async" /></div><div id="summary-items" class="summary-items" aria-live="polite"></div><div class="summary-line"><span>Estimado</span><strong id="summary-total">Por confirmar</strong></div><button class="button button-red" id="order-button" disabled>Hacer pedido <span>↗</span></button><small>Las manzanas se preparan al momento. Confirma los detalles por WhatsApp.</small></aside>
       </div>
     </section>
 
@@ -69,9 +69,9 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
 
     <section class="social section"><div class="section-intro split"><div><p class="eyebrow">Síguenos el antojo</p><h2>MORA MORA<br /><em>EN TU FEED.</em></h2></div><a class="social-link" href={business.instagram} target="_blank" rel="noreferrer" aria-label="Seguir a Mora Mora en Instagram" title="Seguir a Mora Mora en Instagram"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="presentation"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg></span><span>@manzanasmoramora.104</span><span aria-hidden="true">↗</span></a></div><div class="social-grid">{socialImages.map((image, index) => <img src={image} alt={`Manzana Mora Mora, foto ${index + 1}`} loading="lazy" />)}</div></section>
     
-    <section class="contact section" id="contacto"><div><p class="eyebrow">Pasa por una</p><h2>NOS VEMOS<br /><em>EN HIDALGO.</em></h2></div><div class="contact-info"><a class="address-link" href={mapLink} target="_blank" rel="noreferrer">{business.address}<br />{business.city} ↗</a><p>{business.hours}</p><a class="button button-red" href={whatsappLink} target="_blank" rel="noreferrer">Pedir por WhatsApp <span>↗</span></a></div><div class="contact-map"><iframe title="Mapa con pin de Mora Mora" src={mapEmbedUrl} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a class="map-link" href={mapLink} target="_blank" rel="noreferrer">Abrir ubicación con pin en Google Maps ↗</a></div></section>
+    <section class="contact section" id="contacto"><div><p class="eyebrow">Pasa por una</p><h2>NOS VEMOS<br /><em>EN HIDALGO.</em></h2></div><div class="contact-info"><a class="address-link" href={mapLink} target="_blank" rel="noopener noreferrer">{business.address}<br />{business.city} ↗</a><p>{business.hours}</p><a class="button button-red" href={whatsappLink} target="_blank" rel="noopener noreferrer">Pedir por WhatsApp <span>↗</span></a></div><div class="contact-map"><div class="map-placeholder"><p>El mapa de Google se carga solo cuando lo solicitas.</p><button class="map-load" type="button" id="load-map" data-map-src={mapEmbedUrl}>Cargar mapa</button></div><a class="map-link" href={mapLink} target="_blank" rel="noopener noreferrer">Abrir ubicación con pin en Google Maps ↗</a></div></section>
 
-    <footer><a class="logo" href="#inicio">MORA<span>MORA</span></a><p>Manzanas preparadas con actitud.<span class="privacy-note">Medimos visitas y acciones de forma agregada; no enviamos nombre ni teléfono a analítica.</span></p><div><a href="#productos">Productos</a><a href="#arma">Arma la tuya</a><a href="#contacto">Contacto</a></div><small>© 2026 Mora Mora</small></footer>
+    <footer><a class="logo" href="#inicio">MORA<span>MORA</span></a><p>Manzanas preparadas con actitud.</p><div><a href="#productos">Productos</a><a href="#arma">Arma la tuya</a><a href="#contacto">Contacto</a></div><div class="footer-legal"><a href="/politica-de-privacidad/">Privacidad</a><a href="/terminos-y-condiciones/">Términos</a></div><small>© 2026 Mora Mora</small></footer>
   </main>
 </Layout>
 
@@ -84,9 +84,11 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
 
 <style>
   :root { --ink: #211d1a; --cream: #eee6d8; --red: #8a5148; --green: #78806b; --acid: #d7c7a8; --line: rgba(33, 29, 26, .2); }
-  .hero-art img { filter: saturate(.82) contrast(1.04); }
+  .hero-art img { width: min(42vw, 620px) !important; height: auto !important; max-width: 100%; aspect-ratio: 1 / 1; flex: 0 0 auto; filter: saturate(.82) contrast(1.04); }
+  .manifesto-stamp { width: 145px !important; height: 145px !important; aspect-ratio: 1 / 1; flex: 0 0 145px; }
+  .family img { left: 50%; right: auto; top: 10%; width: 70%; height: auto; aspect-ratio: 1 / 1; object-position: center; transform: translateX(-50%); }
   .family img, .product-image img { mix-blend-mode: normal; }
-  .family:hover img { transform: rotate(15deg) scale(1.04); }
+  .family:hover img { transform: translateX(-50%) scale(1.03); }
   .product:hover img { transform: scale(1.05) rotate(3deg); }
   .summary-apple img { transform: none; object-position: center; }
   .manifesto-stamp { position: relative; left: auto; right: auto; top: auto; margin: 0 0 36px auto; }
@@ -98,6 +100,8 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
   .social-icon circle:last-child { fill: currentColor; stroke: none; }
   footer .privacy-note { display: block; max-width: 260px; margin-top: 12px; font-size: .58rem; line-height: 1.4; opacity: .65; }
   @media (max-width: 760px) {
+    .hero-art img { width: min(78vw, 440px) !important; height: auto !important; aspect-ratio: 1 / 1; }
+    .manifesto-stamp { width: 90px !important; height: 90px !important; flex-basis: 90px; }
     .site-header nav.mobile-open { display: flex; position: absolute; top: 64px; left: 0; right: 0; z-index: 10; flex-direction: column; gap: 0; padding: 8px 7vw 14px; background: var(--cream); border-bottom: 1px solid var(--line); }
     .site-header nav.mobile-open a { padding: 14px 0; border-bottom: 1px solid var(--line); }
     .site-header nav.mobile-open a:last-child { border-bottom: 0; }
@@ -131,6 +135,10 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
   .address-link { display: inline-block; border-bottom: 1px solid var(--ink); padding-bottom: 8px; line-height: 1.45; }
   .contact-map { grid-column: 1 / -1; margin-top: 54px; border: 1px solid rgba(33, 29, 26, .2); background: var(--cream); }
   .contact-map iframe { display: block; width: 100%; height: 300px; border: 0; filter: grayscale(.25) sepia(.12); }
+  .map-placeholder { min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; }
+  .map-placeholder p { max-width: 340px; margin: 0; font-size: .88rem; line-height: 1.4; }
+  .map-load { padding: 12px 15px; border: 1px solid var(--ink); background: var(--ink); color: var(--cream); font: .68rem 'DM Mono', monospace; text-transform: uppercase; cursor: pointer; }
+  .footer-legal { display: flex; flex-direction: column; gap: 10px; font: .65rem 'DM Mono'; text-transform: uppercase; }
   .map-link { display: block; padding: 13px 15px; font: .68rem 'DM Mono', monospace; text-transform: uppercase; border-top: 1px solid var(--line); }
   .catalog-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 70px; }
   .catalog-card { min-width: 0; background: var(--cream); border: 1px solid var(--line); }
@@ -285,7 +293,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
     updateSummary();
   });
 
-  document.querySelector('#plus').addEventListener('click', () => { state.quantity += 1; updateSummary(); });
+  document.querySelector('#plus').addEventListener('click', () => { state.quantity = Math.min(100, state.quantity + 1); updateSummary(); });
   document.querySelector('#minus').addEventListener('click', () => { state.quantity = Math.max(1, state.quantity - 1); updateSummary(); });
   document.querySelector('#add-item').addEventListener('click', () => {
     state.items.push({
@@ -298,7 +306,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
     resetBuilder();
   });
   document.querySelector('#order-button').addEventListener('click', () => {
-    const name = customer.value.trim();
+    const name = customer.value.trim().slice(0, 80);
     const total = getOrderTotal();
     const itemCount = state.items.reduce((count, item) => count + item.quantity, 0);
     trackAnonymousEvent('whatsapp_order_click', { item_count: itemCount, total_amount: total });
@@ -306,16 +314,26 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
       const toppings = item.toppings.length ? `, toppings: ${item.toppings.join(', ')}` : '';
       const itemTotal = getItemPrice(item.base, item.toppings) * item.quantity;
       return `${item.quantity} x ${item.base}, sabor: ${item.flavor}${toppings} (${formatMoney(itemTotal).replace(' MXN', '')})`;
-    }).join('%0A');
-    const nameLine = name ? `%0ANombre: ${name}` : '';
-    const message = `Hola Mora Mora!%0A%0AQuiero pedir:%0A${orderLines}%0A%0ATotal estimado: ${formatMoney(total).replace(' MXN', '')}${nameLine}`;
+    }).join('\n');
+    const nameLine = name ? `\nNombre: ${name}` : '';
+    const message = `Hola Mora Mora!\n\nQuiero pedir:\n${orderLines}\n\nTotal estimado: ${formatMoney(total).replace(' MXN', '')}${nameLine}`;
     const whatsappNumber = document.querySelector('main').dataset.whatsapp;
-    if (whatsappNumber) window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener');
+    if (whatsappNumber) window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
     else alert('WhatsApp esta listo para conectarse. Agrega el numero en src/data/business.ts.');
   });
-  document.querySelector('#wholesale-button').addEventListener('click', (event) => { event.preventDefault(); trackAnonymousEvent('wholesale_quote_click'); const whatsappNumber = document.querySelector('main').dataset.whatsapp; window.open(`https://wa.me/${whatsappNumber}?text=Hola%20Mora%20Mora,%20quiero%20cotizar%20un%20pedido%20de%20mayoreo.`, '_blank', 'noopener'); });
+  document.querySelector('#wholesale-button').addEventListener('click', (event) => { event.preventDefault(); trackAnonymousEvent('wholesale_quote_click'); const whatsappNumber = document.querySelector('main').dataset.whatsapp; window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hola Mora Mora, quiero cotizar un pedido de mayoreo.')}`, '_blank', 'noopener,noreferrer'); });
   document.querySelector('.social-link').addEventListener('click', () => trackAnonymousEvent('instagram_profile_click'));
   document.querySelector('.contact-info .button-red').addEventListener('click', () => trackAnonymousEvent('whatsapp_contact_click'));
+  document.querySelector('#load-map').addEventListener('click', (event) => {
+    const button = event.currentTarget;
+    const iframe = document.createElement('iframe');
+    iframe.title = 'Mapa con ubicación de Mora Mora';
+    iframe.src = button.dataset.mapSrc;
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    document.querySelector('.map-placeholder').replaceWith(iframe);
+    trackAnonymousEvent('map_loaded');
+  });
   document.querySelector('.menu-button').addEventListener('click', (event) => { const button = event.currentTarget; const open = button.getAttribute('aria-expanded') === 'true'; const nextOpen = !open; button.setAttribute('aria-expanded', String(nextOpen)); button.setAttribute('aria-label', nextOpen ? 'Cerrar menu' : 'Abrir menu'); document.querySelector('.site-header nav').classList.toggle('mobile-open', nextOpen); });
   renderOptions();
   syncBaseButtons();

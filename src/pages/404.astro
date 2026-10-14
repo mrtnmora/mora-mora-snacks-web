@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Página no encontrada | Mora Mora" description="La página que buscas no existe o cambió de dirección." noindex={true}>
+  <main class="not-found">
+    <a class="logo" href="/" aria-label="Mora Mora, inicio">MORA<span>MORA</span></a>
+    <p class="eyebrow">Error 404 · Se nos fue la manzana</p>
+    <h1>ESTA PÁGINA<br /><em>NO ESTÁ.</em></h1>
+    <p>El enlace puede estar mal escrito o ya no existir.</p>
+    <a class="button" href="/">Volver al inicio <span>↗</span></a>
+  </main>
+</Layout>
+
+<style>
+  .not-found { min-height: 100vh; padding: 40px 8vw; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; background: #eee6d8; color: #211d1a; font-family: 'Space Grotesk', sans-serif; }
+  .logo { margin-bottom: auto; font-size: 1.5rem; font-weight: 700; line-height: .75; letter-spacing: -.08em; display: flex; flex-direction: column; }
+  .logo span { margin-left: 16px; }
+  .eyebrow { font: .68rem 'DM Mono', monospace; text-transform: uppercase; }
+  h1 { margin: 14px 0 24px; font-size: clamp(3.3rem, 10vw, 8rem); line-height: .78; letter-spacing: -.09em; }
+  h1 em { color: #8a5148; font-style: normal; }
+  .not-found > p:not(.eyebrow) { max-width: 430px; font-size: 1.1rem; }
+  .button { margin-top: 20px; padding: 13px 16px; display: inline-flex; gap: 24px; border: 1px solid #211d1a; color: inherit; font: .68rem 'DM Mono', monospace; text-transform: uppercase; text-decoration: none; }
+</style>

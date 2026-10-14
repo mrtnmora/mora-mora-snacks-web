@@ -4,5 +4,5 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   output: 'static',
   adapter: cloudflare(),
-  site: 'https://moramora.mx',
+  site: 'https://mora-mora.mx',
 });

@@ -13,13 +13,37 @@ const eventRules = {
   wholesale_quote_click: {},
   instagram_profile_click: {},
   whatsapp_contact_click: {},
+  map_loaded: {},
 };
+
+const consentKey = 'mora-analytics-consent';
+
+export function getAnalyticsConsent() {
+  try {
+    const choice = globalThis.window?.localStorage?.getItem(consentKey);
+    if (choice === 'granted') return true;
+    if (choice === 'denied') return false;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveAnalyticsConsent(choice) {
+  if (choice !== 'granted' && choice !== 'denied') return false;
+  try {
+    globalThis.window?.localStorage?.setItem(consentKey, choice);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export function trackAnonymousEvent(eventName, properties = {}) {
   const zaraz = globalThis.window?.zaraz;
   const rules = eventRules[eventName];
 
-  if (!rules || typeof zaraz?.track !== 'function') {
+  if (getAnalyticsConsent() !== true || !rules || typeof zaraz?.track !== 'function') {
     return false;
   }
 

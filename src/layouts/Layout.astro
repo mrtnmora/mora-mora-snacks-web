@@ -1,6 +1,7 @@
 ---
-const { title = 'Mora Mora | Manzanas que se antojan', description = 'Manzanas preparadas con chamoy, chocolate y toppings en Ciudad Hidalgo.' } = Astro.props;
-const canonicalUrl = 'https://mora-mora.mx/';
+const { title = 'Mora Mora | Manzanas que se antojan', description = 'Manzanas preparadas con chamoy, chocolate y toppings en Ciudad Hidalgo.', noindex = false } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, 'https://mora-mora.mx').toString();
+const isHomePage = Astro.url.pathname === '/';
 ---
 <!doctype html>
 <html lang="es">
@@ -8,6 +9,7 @@ const canonicalUrl = 'https://mora-mora.mx/';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#f2e8d5" />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
@@ -17,7 +19,10 @@ const canonicalUrl = 'https://mora-mora.mx/';
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content="https://mora-mora.mx/images/apple-01.jpeg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://mora-mora.mx/images/apple-01.jpeg" />
+    {isHomePage && <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
       name: 'Mora Mora',
@@ -31,9 +36,47 @@ const canonicalUrl = 'https://mora-mora.mx/';
         addressLocality: 'Ciudad Hidalgo',
         addressCountry: 'MX',
       },
-    })} />
+    })} />}
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
   </head>
-  <body><slot /></body>
+  <body>
+    <slot />
+    <aside class="analytics-consent" id="analytics-consent" aria-labelledby="analytics-consent-title" hidden>
+      <div class="consent-copy">
+        <strong id="analytics-consent-title">Privacidad y medición</strong>
+        <p>Cloudflare mide visitas agregadas. ¿También contamos acciones? No enviamos nombre ni teléfono.</p>
+        <a href="/politica-de-privacidad/">Leer política de privacidad</a>
+      </div>
+      <div class="consent-actions">
+        <button type="button" data-analytics-choice="denied">Solo agregadas</button>
+        <button type="button" data-analytics-choice="granted">Aceptar</button>
+      </div>
+    </aside>
+    <script>
+      import { getAnalyticsConsent, saveAnalyticsConsent } from '../lib/analytics.js';
+
+      const consentBanner = document.querySelector('#analytics-consent');
+      if (getAnalyticsConsent() === null) consentBanner.hidden = false;
+      consentBanner.addEventListener('click', (event) => {
+        const choice = event.target.closest('[data-analytics-choice]')?.dataset.analyticsChoice;
+        if (!choice) return;
+        saveAnalyticsConsent(choice);
+        consentBanner.hidden = true;
+      });
+    </script>
+  </body>
 </html>
+
+<style>
+  .analytics-consent { position: fixed; z-index: 100; inset: auto 16px 16px; display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 960px; margin-inline: auto; padding: 18px 20px; border: 1px solid #211d1a55; background: #eee6d8; color: #211d1a; box-shadow: 0 8px 28px #0002; font-family: 'Space Grotesk', sans-serif; }
+  .analytics-consent[hidden] { display: none; }
+  .consent-copy { max-width: 570px; }
+  .consent-copy p { margin: 4px 0; font-size: .78rem; line-height: 1.35; }
+  .consent-copy a { color: inherit; font-size: .7rem; text-decoration: underline; }
+  .consent-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+  .consent-actions button { padding: 9px 10px; border: 1px solid #211d1a; background: transparent; color: inherit; font: .62rem 'DM Mono', monospace; text-transform: uppercase; cursor: pointer; }
+  .consent-actions button:last-child { background: #211d1a; color: #eee6d8; }
+  .consent-actions button:focus-visible, .consent-copy a:focus-visible { outline: 3px solid #8a5148; outline-offset: 3px; }
+  @media (max-width: 680px) { .analytics-consent { inset: auto 8px 8px; align-items: stretch; flex-direction: column; gap: 12px; padding: 14px; } .consent-actions { display: grid; grid-template-columns: 1fr 1fr; } }
+</style>

@@ -1,0 +1,1 @@
+globalThis.process??={},globalThis.process.env??={};import{n as e,t}from"./analytics.Cq2fVePp.js";var n=document.querySelector(`#analytics-consent`);t()===null&&(n.hidden=!1),n.addEventListener(`click`,t=>{let r=t.target.closest(`[data-analytics-choice]`)?.dataset.analyticsChoice;r&&(e(r),n.hidden=!0)});
