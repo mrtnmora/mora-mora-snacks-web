@@ -69,7 +69,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
 
     <section class="social section"><div class="section-intro split"><div><p class="eyebrow">Síguenos el antojo</p><h2>MORA MORA<br /><em>EN TU FEED.</em></h2></div><a class="social-link" href={business.instagram} target="_blank" rel="noreferrer" aria-label="Seguir a Mora Mora en Instagram" title="Seguir a Mora Mora en Instagram"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" role="presentation"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg></span><span>@manzanasmoramora.104</span><span aria-hidden="true">↗</span></a></div><div class="social-grid">{socialImages.map((image, index) => <img src={image} alt={`Manzana Mora Mora, foto ${index + 1}`} loading="lazy" />)}</div></section>
     
-    <section class="contact section" id="contacto"><div><p class="eyebrow">Pasa por una</p><h2>NOS VEMOS<br /><em>EN HIDALGO.</em></h2></div><div class="contact-info"><a class="address-link" href={mapLink} target="_blank" rel="noopener noreferrer">{business.address}<br />{business.city} ↗</a><p>{business.hours}</p><a class="button button-red" href={whatsappLink} target="_blank" rel="noopener noreferrer">Pedir por WhatsApp <span>↗</span></a></div><div class="contact-map"><div class="map-placeholder"><p>El mapa de Google se carga solo cuando lo solicitas.</p><button class="map-load" type="button" id="load-map" data-map-src={mapEmbedUrl}>Cargar mapa</button></div><a class="map-link" href={mapLink} target="_blank" rel="noopener noreferrer">Abrir ubicación con pin en Google Maps ↗</a></div></section>
+    <section class="contact section" id="contacto"><div><p class="eyebrow">Pasa por una</p><h2>NOS VEMOS<br /><em>EN HIDALGO.</em></h2></div><div class="contact-info"><a class="address-link" href={mapLink} target="_blank" rel="noopener noreferrer">{business.address}<br />{business.city} ↗</a><p>{business.hours}</p><a class="button button-red" href={whatsappLink} target="_blank" rel="noopener noreferrer">Pedir por WhatsApp <span>↗</span></a></div><div class="contact-map"><iframe title="Mapa con pin de Mora Mora" src={mapEmbedUrl} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a class="map-link" href={mapLink} target="_blank" rel="noopener noreferrer">Abrir ubicación con pin en Google Maps ↗</a></div></section>
 
     <footer><a class="logo" href="#inicio">MORA<span>MORA</span></a><p>Manzanas preparadas con actitud.</p><div><a href="#productos">Productos</a><a href="#arma">Arma la tuya</a><a href="#contacto">Contacto</a></div><div class="footer-legal"><a href="/politica-de-privacidad/">Privacidad</a><a href="/terminos-y-condiciones/">Términos</a></div><small>© 2026 Mora Mora</small></footer>
   </main>
@@ -134,10 +134,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
   button.add-item { display: flex; width: fit-content; margin: 18px 0 0 auto; cursor: pointer; transition: background .2s, border-color .2s; }
   .address-link { display: inline-block; border-bottom: 1px solid var(--ink); padding-bottom: 8px; line-height: 1.45; }
   .contact-map { grid-column: 1 / -1; margin-top: 54px; border: 1px solid rgba(33, 29, 26, .2); background: var(--cream); }
-  .contact-map iframe { display: block; width: 100%; height: 300px; border: 0; filter: grayscale(.25) sepia(.12); }
-  .map-placeholder { min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; }
-  .map-placeholder p { max-width: 340px; margin: 0; font-size: .88rem; line-height: 1.4; }
-  .map-load { padding: 12px 15px; border: 1px solid var(--ink); background: var(--ink); color: var(--cream); font: .68rem 'DM Mono', monospace; text-transform: uppercase; cursor: pointer; }
+  .contact-map iframe { display: block; width: 100%; height: clamp(360px, 42vw, 560px); border: 0; filter: grayscale(.15) sepia(.08); }
   .footer-legal { display: flex; flex-direction: column; gap: 10px; font: .65rem 'DM Mono'; text-transform: uppercase; }
   .map-link { display: block; padding: 13px 15px; font: .68rem 'DM Mono', monospace; text-transform: uppercase; border-top: 1px solid var(--line); }
   .catalog-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 70px; }
@@ -154,7 +151,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
     .catalog-card summary span { padding: 9px 8px 10px; font-size: .58rem; }
     .catalog-card p { padding: 0 8px 11px; font-size: .72rem; }
     .contact-map { grid-column: auto; margin-top: 42px; }
-    .contact-map iframe { height: 250px; }
+    .contact-map iframe { height: clamp(320px, 85vw, 440px); }
   }
   @media (min-width: 1000px) {
     .order-summary { width: 100%; max-width: 420px; justify-self: end; }
@@ -324,16 +321,6 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
   document.querySelector('#wholesale-button').addEventListener('click', (event) => { event.preventDefault(); trackAnonymousEvent('wholesale_quote_click'); const whatsappNumber = document.querySelector('main').dataset.whatsapp; window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hola Mora Mora, quiero cotizar un pedido de mayoreo.')}`, '_blank', 'noopener,noreferrer'); });
   document.querySelector('.social-link').addEventListener('click', () => trackAnonymousEvent('instagram_profile_click'));
   document.querySelector('.contact-info .button-red').addEventListener('click', () => trackAnonymousEvent('whatsapp_contact_click'));
-  document.querySelector('#load-map').addEventListener('click', (event) => {
-    const button = event.currentTarget;
-    const iframe = document.createElement('iframe');
-    iframe.title = 'Mapa con ubicación de Mora Mora';
-    iframe.src = button.dataset.mapSrc;
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    document.querySelector('.map-placeholder').replaceWith(iframe);
-    trackAnonymousEvent('map_loaded');
-  });
   document.querySelector('.menu-button').addEventListener('click', (event) => { const button = event.currentTarget; const open = button.getAttribute('aria-expanded') === 'true'; const nextOpen = !open; button.setAttribute('aria-expanded', String(nextOpen)); button.setAttribute('aria-label', nextOpen ? 'Cerrar menu' : 'Abrir menu'); document.querySelector('.site-header nav').classList.toggle('mobile-open', nextOpen); });
   renderOptions();
   syncBaseButtons();
