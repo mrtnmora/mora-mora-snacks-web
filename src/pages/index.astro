@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { business } from '../data/business';
 import { flavorOptions, additionalToppingOptions } from '../data/products';
-const heroImage = '/images/apple-01.webp';
+const heroImage = '/images/day-of-dead.png';
 const summaryImage = '/images/apple-10.jpeg';
 const socialImages = [];
 const mapEmbedUrl = `https://www.google.com/maps?q=${business.mapCoordinates}&z=19&hl=es&output=embed`;
@@ -34,7 +34,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
 
     <section class="hero" id="inicio">
       <div class="hero-copy"><p class="eyebrow">Manzanas preparadas · Ciudad Hidalgo</p><h1>MORA<br /><em>MORA</em></h1><p class="hero-line">Se te antojó.<br /><strong>Y lo sabes.</strong></p><a class="button button-dark" href="#arma">Arma la tuya <span>↗</span></a></div>
-      <div class="hero-art"><div class="burst">FRESH<br />&amp; FUN</div><img src={heroImage} alt="Manzana Mora Mora cubierta de chamoy y toppings" fetchpriority="high" /></div>
+      <div class="hero-art"><img class="seasonal-hero-logo" src={heroImage} alt="Logo Mora Mora, edición de Día de Muertos" width="768" height="768" fetchpriority="high" /></div>
       <div class="hero-note"><span>01 / 06</span><span>Hechas al momento</span></div>
     </section>
 
@@ -98,6 +98,7 @@ const whatsappLink = `https://wa.me/${business.whatsapp}`;
   .social-icon { display: inline-grid; place-items: center; width: 19px; height: 19px; }
   .social-icon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; }
   .social-icon circle:last-child { fill: currentColor; stroke: none; }
+  .hero-art img.seasonal-hero-logo { object-fit: contain; border-radius: 50%; transform: none; filter: none; animation: none; }
   footer .privacy-note { display: block; max-width: 260px; margin-top: 12px; font-size: .58rem; line-height: 1.4; opacity: .65; }
   @media (max-width: 760px) {
     .hero-art img { width: min(78vw, 440px) !important; height: auto !important; aspect-ratio: 1 / 1; }
